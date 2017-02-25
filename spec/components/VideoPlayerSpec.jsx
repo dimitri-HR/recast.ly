@@ -3,7 +3,7 @@ describe ('VideoPlayer', function() {
     renderIntoDocument,
     findRenderedDOMComponentWithClass
   } = React.addons.TestUtils;
-  
+
   var cuteCatVideo, superCuteCatVideo, hackReactorVideo;
 
   // In order to leverage React's test utility function `findRenderedDOMComponentWithClass`
@@ -17,6 +17,7 @@ describe ('VideoPlayer', function() {
         <VideoPlayer video={window.fakeVideoData[0]} />
       </Wrapper>
     );
+    // console.log('cuteCatVideo info', cute)
 
     superCuteCatVideo = renderIntoDocument(
       <Wrapper>
