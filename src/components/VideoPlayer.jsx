@@ -1,6 +1,7 @@
 var VideoPlayer = (props) => {
   // console.log('VideoPlayer props -', props);
 
+  // var urlString = `https://www.youtube.com/embed/${props.video.id.videoId}?autoplay=1`;
   var urlString = `https://www.youtube.com/embed/${props.video.id.videoId}`;
 
   return (

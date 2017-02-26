@@ -1,66 +1,35 @@
 class App extends React.Component {
   constructor (props) {
-    super(props)
-    console.log("APP props - ", props);
-
-    // this.state = {
-    //   currentVideo: exampleVideoData[0],
-    //   videoList: exampleVideoData
-    // };
-    // console.log("app.js props", props);
-    // console.log("app.js this.props.videodata", this.props.videoData);
-    console.log('searchYoutube data callback exampleData[0]', exampleVideoData[0]);
+    super(props);
     this.state = {
-      currentVideo: exampleVideoData[0],
       videoList: exampleVideoData,
-      searchTerm: 'type here'
+      currentVideo: exampleVideoData[0],
+      searchTerm: ''
     };
+  }
 
-    props.searchYouTube({
-      key: YOUTUBE_API_KEY,
-      max: 5,
-      query: 'cats'
-      },
-        function(data) {
-          // console.log("searchYoutube data callback", data);
-          // console.log("searchYoutube data callback data.items[0]", data.items[0]);
-          // console.log("this, within callback function", this)
-          this.setState({
-            currentVideo: data.items[0],
-            videoList: data.items
-          });
-    }.bind(this));
-
-
+  componentDidMount() {
+    this.onSearch('react tutorials');
   }
 
   onSearch (term) {
-    console.log('onSearch');
-
     var params = {
-      key: YOUTUBE_API_KEY,
+      key: this.props.API_KEY,
       part: 'snippet',
       type: 'video',
       videoEmbeddable: true,
       max: 5,
       query: term
     };
-
     var callback = function(data) {
-      // console.log('From Callback!');
-      // console.log(data);
-      // console.log('data.items[0]', data.items[0]);
-        this.setState({
-          currentVideo: data.items[0],
-          videoList: data.items
-        });
+      this.setState({
+        currentVideo: data.items[0],
+        videoList: data.items
+      });
       return data;
     }.bind(this);
-
-    searchYouTube(params, callback);
-
+    this.props.searchYouTube(params, callback);
   }
-
 
   onVideoClick(video) {
     this.setState({
@@ -69,9 +38,11 @@ class App extends React.Component {
   }
 
   render() {
+    var searchMe = _.debounce((term) => { this.onSearch(term); }, 1000);
+
     return (
       <div>
-        <Nav searchTerm={this.state.searchTerm} onSearch={this.onSearch} />
+        <Nav searchTerm={this.state.searchTerm} onSearch={searchMe} />
         <div className="col-md-7">
           <VideoPlayer video={this.state.currentVideo}/>
         </div>
