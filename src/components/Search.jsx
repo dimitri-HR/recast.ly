@@ -1,6 +1,4 @@
 var Search = (props) => {
-  console.log('Search props = ', props);
-
   return (
     <div className="search-bar form-inline">
       <input className="form-control" type="text" onChange={e => props.onSearch(e.target.value)}/>
